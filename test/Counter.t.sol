@@ -1,24 +1,43 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import {Test, console} from "forge-std/Test.sol";
-import {Counter} from "../src/Counter.sol";
+import "forge-std/Test.sol";
+import "../src/Counter.sol";
+import "../src/ERC721.sol";
 
 contract CounterTest is Test {
-    Counter public counter;
+  Counter counter;
+  ERC721 erc721;
 
-    function setUp() public {
-        counter = new Counter();
-        counter.setNumber(0);
-    }
+  address bob = address(0x1);
+  address alice = address(0x2);
 
-    function test_Increment() public {
-        counter.increment();
-        assertEq(counter.number(), 1);
-    }
+  function testMintToken() public {
+   erc721 = new ERC721();
+   erc721.mint(bob, 0);
+   address owner_of = erc721.ownerOf(0);
+   assertEq(bob, owner_of);
+  }
 
-    function testFuzz_SetNumber(uint256 x) public {
-        counter.setNumber(x);
-        assertEq(counter.number(), x);
-    }
+  function setUp() public {
+    counter = new Counter(10);
+  }
+
+  function testGetCount() public view {
+    int value = counter.getCount();
+    assertEq(value,10);
+  }
+    
+  function testIncrement() public {
+    counter.incrementCounter();
+    int value = counter.getCount();
+    assertEq(value,11);
+  }
+
+  function testDecrement() public {
+    counter.decrementCounter();
+    int value = counter.getCount();
+    emit log_named_int("This value is: ", value);
+    assertEq(value,9);
+  }
 }
