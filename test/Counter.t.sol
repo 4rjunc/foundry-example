@@ -2,8 +2,8 @@
 pragma solidity ^0.8.13;
 
 import "forge-std/Test.sol";
-import "../src/Counter.sol";
-import "../src/ERC721.sol";
+import "src/Counter.sol";
+import "src/ERC721.sol";
 
 contract CounterTest is Test {
   Counter counter;
