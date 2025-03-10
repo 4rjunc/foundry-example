@@ -29,6 +29,30 @@ contract CounterTest is Test {
     assertEq(alice, owner_of);
   }
 
+  function testGetBalance() public {
+    nft = new MyNFT();
+
+    nft.mint(bob, 0);
+    nft.mint(bob, 1);
+    nft.mint(bob, 2);
+    nft.mint(bob, 3);
+    nft.mint(bob, 4);
+
+    uint balance = nft.balanceOf(bob);
+    assertEq(balance, 5);
+  }
+
+  function testOnlyOwnerBurn() public {
+    nft = new MyNFT();
+    nft.mint(bob, 0);
+
+    vm.startPrank(alice);
+    vm.expectRevert("not owner");
+    nft.burn(0);
+
+    emit log_address(alice);
+  }
+
   function setUp() public {
     counter = new Counter(10);
   }
