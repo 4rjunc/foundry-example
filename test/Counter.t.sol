@@ -13,10 +13,20 @@ contract CounterTest is Test {
   address alice = address(0x2);
 
   function testMintToken() public {
-  nft = new MyNFT();
+   nft = new MyNFT();
    nft.mint(bob, 0);
    address owner_of = nft.ownerOf(0);
    assertEq(bob, owner_of);
+  }
+
+  function testTransferToken() public {
+    nft = new MyNFT();
+    nft.mint(bob, 0);
+
+    vm.startPrank(bob);
+    nft.safeTransferFrom(bob, alice, 0);
+    address owner_of = nft.ownerOf(0);
+    assertEq(alice, owner_of);
   }
 
   function setUp() public {
