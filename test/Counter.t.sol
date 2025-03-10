@@ -7,15 +7,15 @@ import "src/ERC721.sol";
 
 contract CounterTest is Test {
   Counter counter;
-  ERC721 erc721;
+  MyNFT nft;
 
   address bob = address(0x1);
   address alice = address(0x2);
 
   function testMintToken() public {
-   erc721 = new ERC721();
-   erc721.mint(bob, 0);
-   address owner_of = erc721.ownerOf(0);
+  nft = new MyNFT();
+   nft.mint(bob, 0);
+   address owner_of = nft.ownerOf(0);
    assertEq(bob, owner_of);
   }
 
